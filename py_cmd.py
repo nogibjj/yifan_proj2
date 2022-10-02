@@ -31,10 +31,10 @@ def load_data(filename, head, tail):
 @click.command(name="sort")
 @click.argument("cols")
 @click.argument("filename", type=click.Path(exists=True), default="tv_shows.csv")
-@click.option("-n", "--num", default=0)
+@click.option("-n", "--num", default=0, help='number of line to show')
 @click.option("-as/-des", "--ascending/--descending", default=False)
 def sort(cols, num, ascending, filename):
-    print(cols)
+    """Sort data from cols with separator `,`."""
     df = check(filename)
     cols = [key.strip() for key in cols.split(",")]
     res = df.sort_values(cols, ascending=ascending)
@@ -46,9 +46,10 @@ def sort(cols, num, ascending, filename):
 @click.command()
 @click.argument("col_name")
 @click.argument("filename", type=click.Path(exists=True), default="tv_shows.csv")
-@click.option("-n", "--num", default=0)
+@click.option("-n", "--num", default=0, help='number of line to show')
 @click.option("-as/-des", "--ascending/--descending", default=False)
 def count(col_name, num, ascending, filename):
+    """Goup data with column name."""
     df = check(filename)
     g = df.groupby(col_name)
     res = g.size()
@@ -60,19 +61,20 @@ def count(col_name, num, ascending, filename):
 
 
 @click.command(name="to_type")
-@click.option("-t", "--type", default="csv")
+@click.option("-t", "--type", default="csv", help='new type of file')
 @click.argument("filename", type=click.Path(exists=True), default="tv_shows.csv")
-def change_type(type, filename):
-    name = filename.split(".")[0] + "." + type
+def change_type(tp, filename):
+    """Transfer csv file to pkl or gdf file."""
+    name = filename.split(".")[0] + "." + tp
     df = check(filename)
-    if type == "pkl":
+    if tp == "pkl":
         df.to_pickle(name)
-    elif type == "gdf":
+    elif tp == "gdf":
         df.to_hdf(name, "df")
-    elif type == "csv":
+    elif tp == "csv":
         df.to_csv(name)
     else:
-        click.echo("unknow type: " + type)
+        click.echo("unknow type: " + tp)
 
 
 cli.add_command(load_data)
