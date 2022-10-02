@@ -39,7 +39,7 @@ def sort(cols, num, ascending, filename):
     cols = [key.strip() for key in cols.split(",")]
     res = df.sort_values(cols, ascending=ascending)
     if num > 0:
-        res.iloc[:num]
+        res = res.iloc[:num]
     print(res)
 
 
