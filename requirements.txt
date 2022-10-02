@@ -2,3 +2,4 @@ click
 pandas
 tables
 black
+pylint
