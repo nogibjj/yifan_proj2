@@ -23,3 +23,15 @@ do
    echo `wc -l $f`
    echo ""
 done ;
+
+echo "Testing:::::::::::"
+echo "load data -hd"
+python py_cmd.py load_data -hd 10
+echo "load data -tail"
+python py_cmd.py load_data --tail 10
+echo "sort"
+python py_cmd.py sort "Year" -n 5
+echo "sort desc -n=5"
+python py_cmd.py sort "Year" -n 5 -des 
+echo "count ascending order -n=10"
+python py_cmd.py count "Year" -n 10 -as
